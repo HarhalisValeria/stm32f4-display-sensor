@@ -356,7 +356,7 @@ void ssd1306_TestDrawBitmap()
 //    ssd1306_UpdateScreen();
 
     ssd1306_Fill(Black);
-    ssd1306_DrawBitmap(32,0,idi_nahuy,64,64,White);
+    ssd1306_DrawBitmap(32,0,github_logo_64x64,64,64,White);
     ssd1306_UpdateScreen();
 }
 
