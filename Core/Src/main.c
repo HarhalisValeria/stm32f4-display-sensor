@@ -104,9 +104,7 @@ int main(void)
   // Initially turn off the LED
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
 
-  // Clear the display and set the cursor position
-  ssd1306_Fill(Black);
-  ssd1306_SetCursor(0, 0);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -122,13 +120,16 @@ int main(void)
       {
           previousState = motionState;  // Update the previous state
 
+          // Clear the display and set the cursor position
+		  ssd1306_Fill(Black);
+		  ssd1306_SetCursor(0, 0);
+
 		  if (motionState == GPIO_PIN_SET)
           {
               // Motion detected: Turn on LED, display "Motion" on OLED
               HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 
               strcpy((char*)buf, "Motion\r\n");
-              CDC_Transmit_FS(buf, strlen((char*)buf));
 
               ssd1306_WriteString("Motion", Font_11x18, White);
           }
@@ -138,11 +139,12 @@ int main(void)
               HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
 
               strcpy((char*)buf, "No motion\r\n");
-              CDC_Transmit_FS(buf, strlen((char*)buf));
+
 
               ssd1306_WriteString("No motion", Font_11x18, White);
           }
 
+		  CDC_Transmit_FS(buf, strlen((char*)buf));
           ssd1306_UpdateScreen();  // Refresh the OLED display only on state change
       }
 
